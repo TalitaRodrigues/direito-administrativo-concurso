@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Direito Administrativo — Revisão para Concursos</title>
+<style>
+:root{
+  --site-primary:#173B6C;
+  --site-secondary:#D9A441;
+  --site-background:#F4F7FB;
+  --site-on-primary:#FFFFFF;
+  --site-on-secondary:#171717;
+  --site-on-background:#172033;
+  --site-font-body:Inter,Segoe UI,Arial,sans-serif;
+  --site-font-heading:Georgia,serif;
+  --site-heading-scale:1;
+  --site-spacing-scale:1;
+  --site-radius-scale:1;
+  --site-decoration-opacity:1;
+  --surface:#FFFFFF;
+  --muted:#64748B;
+  --border:#D9E2EF;
+  --good:#16734B;
+  --bad:#B42318;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--site-font-body);background:var(--site-background);color:var(--site-on-background);line-height:1.6}
+#app{min-height:100vh;background-color:var(--site-background)}
+header{background:var(--site-primary);color:var(--site-on-primary);padding:calc(36px * var(--site-spacing-scale)) 5%;position:relative;overflow:hidden}
+header:after{content:"§";position:absolute;right:7%;top:-35px;font:180px Georgia;color:#fff;opacity:.08}
+.container{width:min(1100px,92%);margin:auto}
+.eyebrow{letter-spacing:2px;text-transform:uppercase;font-size:13px;font-weight:700;opacity:.8}
+h1,h2,h3{font-family:var(--site-font-heading);line-height:1.15}
+h1{font-size:calc(44px * var(--site-heading-scale));margin:10px 0}
+header p{max-width:750px;margin:12px 0 0;font-size:18px}
+nav{background:#102D52;border-bottom:1px solid #284E7D;position:sticky;top:0;z-index:10}
+.nav{display:flex;gap:8px;overflow:auto;padding:10px 0}
+.nav button,.filter button{border:0;border-radius:calc(999px * var(--site-radius-scale));padding:9px 15px;background:transparent;color:white;font-weight:700;cursor:pointer;white-space:nowrap}
+.nav button:hover,.nav button.active{background:var(--site-secondary);color:#171717}
+main{padding:36px 0 70px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:calc(16px * var(--site-radius-scale));padding:24px;box-shadow:0 8px 22px rgba(16,45,82,.06)}
+.card h2{margin-top:0;color:var(--site-primary);font-size:calc(27px * var(--site-heading-scale))}
+.card h3{color:var(--site-primary);margin-bottom:6px}
+.badge{display:inline-block;background:#EEF3FA;color:var(--site-primary);padding:5px 10px;border-radius:999px;font-size:12px;font-weight:800}
+ul{padding-left:20px}
+li{margin:7px 0}
+.highlight{border-left:5px solid var(--site-secondary);background:#FFF9EA;padding:13px 16px;margin:15px 0;border-radius:0 10px 10px 0}
+.mindmap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:15px}
+.node{border:1px solid var(--border);padding:15px;border-radius:12px;background:#F8FAFD}
+.node strong{color:var(--site-primary)}
+.full{grid-column:1/-1}
+.section{scroll-margin-top:75px;margin-bottom:30px}
+.quiz{margin-top:30px}
+.question{border-top:1px solid var(--border);padding:22px 0}
+.question:first-child{border-top:0}
+.question h3{font-family:var(--site-font-body);font-size:17px;color:var(--site-on-background)}
+.option{display:block;width:100%;text-align:left;background:#F8FAFD;border:1px solid var(--border);padding:12px 14px;margin:8px 0;border-radius:10px;cursor:pointer;font:inherit}
+.option:hover{border-color:var(--site-primary)}
+.option.selected{border-color:var(--site-primary);background:#EAF1FA}
+.option.correct{background:#E9F7F0;border-color:var(--good);color:#0D5738}
+.option.wrong{background:#FDECEC;border-color:var(--bad);color:#8A1710}
+.explanation{display:none;margin-top:10px;padding:12px;border-radius:10px;background:#F3F5F8;font-size:14px}
+.explanation.show{display:block}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.primary,.secondary{border:0;border-radius:10px;padding:12px 18px;font-weight:800;cursor:pointer}
+.primary{background:var(--site-primary);color:white}.secondary{background:#E9EEF5;color:var(--site-primary)}
+.score{display:none;margin-top:18px;padding:18px;border-radius:12px;background:#EEF7F1;font-weight:800}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:13px}
+.search{width:100%;padding:13px 15px;border:1px solid var(--border);border-radius:10px;font:inherit;margin:10px 0 20px}
+@media(max-width:760px){
+  h1{font-size:34px}.grid,.mindmap{grid-template-columns:1fr}
+  .full{grid-column:auto}.card{padding:19px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+<header>
+<div class="container">
+<div class="eyebrow">Concurso • Direito Administrativo</div>
+<h1>Direito Administrativo — Revisão Completa</h1>
+<p>Princípios, regime jurídico, LINDB, poderes, deveres, uso e abuso de poder e um simulado interativo para concursos.</p>
+</div>
+</header>
+
+<nav><div class="container nav">
+<button class="active" onclick="go('inicio',this)">Início</button>
+<button onclick="go('principios',this)">Princípios</button>
+<button onclick="go('regime',this)">Regime Jurídico</button>
+<button onclick="go('lindb',this)">LINDB</button>
+<button onclick="go('poderes',this)">Poderes e Deveres</button>
+<button onclick="go('abuso',this)">Uso e Abuso</button>
+<button onclick="go('atos',this)">Atos Administrativos</button>
+<button onclick="go('servicos',this)">Serviços Públicos</button>
+<button onclick="go('licitacoes',this)">Licitações</button>
+<button onclick="go('questoes',this)">Questões</button>
+</div></nav>
+
+<main class="container">
+<section id="inicio" class="section">
+<div class="card">
+<span class="badge">Como estudar</span>
+<h2>Roteiro de revisão</h2>
+<div class="mindmap">
+<div class="node"><strong>1. Princípios constitucionais</strong><br>Art. 37, caput: LIMPE — Legalidade, Impessoalidade, Moralidade, Publicidade e Eficiência.</div>
+<div class="node"><strong>2. Princípios legais</strong><br>Lei nº 9.784/1999: legalidade, finalidade, motivação, razoabilidade, proporcionalidade, moralidade, ampla defesa, contraditório, segurança jurídica e interesse público.</div>
+<div class="node"><strong>3. Princípios implícitos</strong><br>Supremacia do interesse público, indisponibilidade do interesse público, autotutela, continuidade, especialidade e outros construídos pelo sistema jurídico.</div>
+</div>
+<div class="highlight"><strong>Dica de prova:</strong> não confunda princípio expresso na Constituição com princípio implícito. O fato de um princípio não aparecer literalmente no art. 37 não significa que ele não tenha fundamento constitucional.</div>
+</div>
+</section>
+
+<section id="principios" class="section">
+<div class="grid">
+<div class="card">
+<h2>Princípios constitucionais — LIMPE</h2>
+<h3>Legalidade</h3><p>Na Administração Pública, o agente público deve atuar conforme a lei e o ordenamento jurídico. A atuação administrativa não se confunde com a liberdade geral do particular.</p>
+<h3>Impessoalidade</h3><p>Busca impedir favorecimentos, perseguições e promoção pessoal. A atuação deve mirar o interesse público, e a publicidade oficial não deve servir para promoção pessoal de autoridades.</p>
+<h3>Moralidade</h3><p>Exige comportamento ético, honesto e compatível com os padrões jurídicos de probidade administrativa.</p>
+<h3>Publicidade</h3><p>Como regra, os atos administrativos devem ser divulgados, permitindo transparência e controle. O princípio admite hipóteses legais de sigilo.</p>
+<h3>Eficiência</h3><p>Busca melhores resultados na atuação administrativa, com qualidade, produtividade e adequada utilização dos recursos públicos.</p>
+</div>
+
+<div class="card">
+<h2>Princípios legais — Lei 9.784/1999</h2>
+<p>No processo administrativo federal, o art. 2º traz, entre outros, os princípios da:</p>
+<ul>
+<li>legalidade;</li><li>finalidade;</li><li>motivação;</li><li>razoabilidade e proporcionalidade;</li>
+<li>moralidade;</li><li>ampla defesa e contraditório;</li><li>segurança jurídica;</li><li>interesse público e eficiência.</li>
+</ul>
+<div class="highlight"><strong>Memorização:</strong> pense em “L-F-M-R-P-M-C-S-I-E”: Legalidade, Finalidade, Motivação, Razoabilidade, Proporcionalidade, Moralidade, Contraditório, Segurança jurídica, Interesse público e Eficiência.</div>
+</div>
+
+<div class="card full">
+<h2>Princípios implícitos — os mais cobrados</h2>
+<div class="mindmap">
+<div class="node"><strong>Supremacia do interesse público</strong><br>O interesse coletivo possui posição de prevalência em determinadas relações administrativas, dentro dos limites do ordenamento jurídico.</div>
+<div class="node"><strong>Indisponibilidade do interesse público</strong><br>O administrador não é proprietário do interesse público. Deve agir nos limites de suas competências e não pode simplesmente renunciar ao que pertence à coletividade.</div>
+<div class="node"><strong>Autotutela</strong><br>A Administração pode rever seus próprios atos: anular os ilegais e revogar os inconvenientes ou inoportunos, observados os limites jurídicos.</div>
+<div class="node"><strong>Continuidade</strong><br>Os serviços públicos devem ser prestados de modo contínuo, conforme a disciplina jurídica aplicável.</div>
+<div class="node"><strong>Especialidade</strong><br>Entidades administrativas devem atuar dentro das finalidades que justificaram sua criação e das competências legais atribuídas.</div>
+<div class="node"><strong>Razoabilidade e proporcionalidade</strong><br>Exigem adequação e equilíbrio entre meios utilizados e finalidade pública buscada, evitando excessos.</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="regime" class="section">
+<div class="card">
+<h2>Regime Jurídico Administrativo</h2>
+<p>É o conjunto de regras e princípios que disciplina a atuação da Administração Pública. Tradicionalmente, sua lógica é explicada pela combinação de <strong>prerrogativas</strong> e <strong>limitações</strong> da Administração.</p>
+<div class="mindmap">
+<div class="node"><strong>Prerrogativas</strong><br>Instrumentos jurídicos conferidos à Administração para alcançar finalidades públicas, como determinadas cláusulas exorbitantes nos contratos administrativos e poderes administrativos.</div>
+<div class="node"><strong>Limitações</strong><br>Dever de respeitar a lei, finalidade pública, direitos fundamentais, controle, motivação quando exigida e demais parâmetros do ordenamento.</div>
+<div class="node"><strong>Binômio clássico</strong><br><strong>Supremacia do interesse público + indisponibilidade do interesse público.</strong> É uma forma tradicional de explicar o núcleo do regime jurídico administrativo.</div>
+</div>
+<div class="highlight"><strong>Atenção:</strong> prerrogativa administrativa não significa liberdade absoluta. O exercício da função pública permanece submetido à Constituição, às leis e aos princípios administrativos.</div>
+<h3>Para memorizar</h3>
+<ul>
+<li><strong>Supremacia:</strong> instrumentos diferenciados para proteção do interesse público.</li>
+<li><strong>Indisponibilidade:</strong> o administrador deve atuar como gestor do interesse público, não como seu proprietário.</li>
+<li><strong>Controle:</strong> a atuação administrativa pode ser fiscalizada administrativa, judicial e, conforme o caso, legislativamente.</li>
+</ul>
+</div>
+</section>
+
+<section id="lindb" class="section">
+<div class="card">
+<span class="badge">LINDB na Administração Pública</span>
+<h2>Lei de Introdução às Normas do Direito Brasileiro</h2>
+<p>A LINDB, especialmente após as alterações da <strong>Lei nº 13.655/2018</strong>, traz regras relevantes para a aplicação do Direito Público e para decisões administrativas, de controle e judiciais.</p>
+<div class="mindmap">
+<div class="node"><strong>Consequências práticas</strong><br>Decisões devem considerar suas consequências práticas, jurídicas e administrativas, evitando decisões abstratas desconectadas da realidade.</div>
+<div class="node"><strong>Motivação</strong><br>Decisões administrativas devem demonstrar necessidade e adequação da medida quando exigido pela LINDB, inclusive diante de alternativas possíveis.</div>
+<div class="node"><strong>Segurança jurídica</strong><br>Orientações novas não devem surpreender o administrado sem considerar o regime de transição quando a situação assim exigir.</div>
+<div class="node"><strong>Agente público</strong><br>Na esfera administrativa, controladora ou judicial, a responsabilização pessoal do agente público exige consideração das circunstâncias práticas que tenham limitado ou condicionado sua atuação.</div>
+<div class="node"><strong>Erro grosseiro</strong><br>A LINDB estabelece parâmetro específico para responsabilização pessoal do agente público por decisões ou opiniões técnicas, nos termos legais.</div>
+<div class="node"><strong>Termo de compromisso</strong><br>A autoridade administrativa pode celebrar compromisso para eliminar irregularidade, incerteza jurídica ou situação contenciosa, observados os requisitos legais.</div>
+</div>
+<div class="highlight"><strong>Dica de prova:</strong> a LINDB não é apenas uma lei de introdução ao Direito Privado. Os arts. 20 a 30 contêm importantes normas de aplicação do Direito Público e de segurança jurídica.</div>
+</div>
+</section>
+
+<section id="poderes" class="section">
+<div class="grid">
+<div class="card">
+<span class="badge">Poderes Administrativos</span>
+<h2>Poderes e deveres</h2>
+<h3>Poder hierárquico</h3><p>Permite organizar a estrutura administrativa, distribuir funções, fiscalizar e revisar a atuação de subordinados, dentro da competência legal.</p>
+<h3>Poder disciplinar</h3><p>Permite apurar infrações e aplicar sanções a servidores e demais pessoas sujeitas à disciplina administrativa, conforme a lei.</p>
+<h3>Poder regulamentar</h3><p>Permite editar atos normativos para dar fiel execução à lei. Atenção: regulamento não pode, em regra, inovar livremente na ordem jurídica além dos limites constitucional e legalmente admitidos.</p>
+<h3>Poder de polícia</h3><p>É a atividade administrativa que condiciona ou restringe o exercício de direitos, interesses ou liberdades em benefício do interesse público, nos termos da lei.</p>
+<h3>Poder vinculado e discricionário</h3><p>Na atuação vinculada, a lei reduz a margem de escolha. Na discricionária, existe espaço legal de conveniência e oportunidade, sempre dentro dos limites jurídicos.</p>
+</div>
+<div class="card">
+<h2>Deveres administrativos</h2>
+<div class="mindmap">
+<div class="node"><strong>Dever de agir</strong><br>O administrador público não pode simplesmente escolher não atuar quando a lei lhe impõe providência.</div>
+<div class="node"><strong>Dever de eficiência</strong><br>Busca atuação adequada, produtiva e voltada à obtenção de resultados públicos de qualidade.</div>
+<div class="node"><strong>Dever de probidade</strong><br>Exige comportamento honesto, ético e compatível com a finalidade pública.</div>
+<div class="node"><strong>Dever de prestar contas</strong><br>Quem administra recursos ou bens públicos deve sujeitar-se aos mecanismos de controle e prestação de contas.</div>
+</div>
+<div class="highlight"><strong>Macete:</strong> poderes são instrumentos para alcançar a finalidade pública; deveres são limites e obrigações que orientam o exercício da função administrativa.</div>
+</div>
+</div>
+</section>
+
+<section id="abuso" class="section">
+<div class="card">
+<span class="badge">Lei nº 13.869/2019</span>
+<h2>Uso e abuso de poder</h2>
+<p>O abuso ocorre quando o agente utiliza a competência administrativa de maneira incompatível com sua finalidade ou fora dos limites de sua competência. A Lei nº 13.869/2019 tipifica crimes de abuso de autoridade praticados por agente público, servidor ou não, no exercício de suas funções ou a pretexto de exercê-las.</p>
+<div class="mindmap">
+<div class="node"><strong>Excesso de poder</strong><br>O agente atua fora dos limites de sua competência. É vício ligado ao elemento competência.</div>
+<div class="node"><strong>Desvio de poder</strong><br>O agente é competente, mas utiliza a competência para finalidade diversa da prevista em lei ou contrária ao interesse público.</div>
+<div class="node"><strong>Abuso de autoridade</strong><br>A Lei 13.869/2019 trata de condutas criminosas específicas. Para configuração do crime, a lei exige finalidade específica, como prejudicar outrem, beneficiar a si ou terceiro, ou agir por mero capricho ou satisfação pessoal, conforme o tipo legal.</div>
+</div>
+<div class="highlight"><strong>Atenção para a prova:</strong> mero erro de interpretação da lei ou avaliação de fatos e provas, por si só, não configura abuso de autoridade. A análise deve observar o tipo penal e os requisitos específicos da Lei 13.869/2019.</div>
+<h3>Diferença essencial</h3>
+<ul>
+<li><strong>Excesso de poder:</strong> problema de competência — o agente vai além do que podia fazer.</li>
+<li><strong>Desvio de poder:</strong> problema de finalidade — o agente usa uma competência legítima para finalidade ilegítima.</li>
+<li><strong>Abuso de autoridade:</strong> depende do enquadramento em uma das condutas previstas na Lei 13.869/2019 e dos requisitos do respectivo tipo penal.</li>
+</ul>
+</div>
+</section>
+
+<section id="atos" class="section">
+<div class="card">
+<span class="badge">Atos Administrativos</span>
+<h2>Conceito, elementos e atributos</h2>
+<p>Ato administrativo é a manifestação da Administração Pública, ou de quem lhe faça as vezes, no exercício da função administrativa, destinada a produzir efeitos jurídicos conforme o ordenamento.</p>
+<div class="mindmap">
+<div class="node"><strong>Competência</strong><br>Define quem pode praticar o ato. Em regra, é irrenunciável e decorre da lei, admitindo delegação e avocação nos limites legais.</div>
+<div class="node"><strong>Finalidade</strong><br>Todo ato deve buscar a finalidade pública prevista pelo ordenamento. Desvio de finalidade gera vício.</div>
+<div class="node"><strong>Forma</strong><br>É o modo de exteriorização do ato. A forma exigida em lei deve ser observada.</div>
+<div class="node"><strong>Motivo</strong><br>São os pressupostos de fato e de direito que justificam a prática do ato.</div>
+<div class="node"><strong>Objeto</strong><br>É o efeito jurídico produzido pelo ato e deve ser lícito, possível, determinado ou determinável.</div>
+<div class="node"><strong>Atributos</strong><br>Presunção de legitimidade, imperatividade, autoexecutoriedade quando admitida e tipicidade, conforme a classificação doutrinária.</div>
+</div>
+<div class="highlight"><strong>Macete:</strong> elementos do ato = <strong>CO-FI-FO-MO-OB</strong>: Competência, Finalidade, Forma, Motivo e Objeto.</div>
+<h3>Anulação x revogação</h3>
+<ul><li><strong>Anulação:</strong> desfaz ato ilegal.</li><li><strong>Revogação:</strong> retira ato válido por razões de conveniência e oportunidade, respeitados os limites jurídicos.</li></ul>
+</div>
+</section>
+
+<section id="servicos" class="section">
+<div class="card">
+<span class="badge">Serviços Públicos</span>
+<h2>Serviços Públicos</h2>
+<p>Serviço público é atividade destinada à satisfação de necessidades coletivas, submetida ao regime jurídico definido pelo ordenamento e prestada pelo Estado diretamente ou por delegação, conforme o caso.</p>
+<div class="mindmap">
+<div class="node"><strong>Princípios</strong><br>Continuidade, regularidade, eficiência, segurança, atualidade, generalidade e modicidade tarifária são referências importantes na disciplina dos serviços públicos.</div>
+<div class="node"><strong>Prestação direta</strong><br>O próprio Poder Público executa o serviço por seus órgãos ou entidades, conforme a organização administrativa.</div>
+<div class="node"><strong>Concessão</strong><br>Delegação da prestação mediante licitação, por conta e risco da concessionária, por prazo determinado e nas condições legais.</div>
+<div class="node"><strong>Permissão</strong><br>Delegação da prestação de serviço público, precedida de licitação, nos termos da legislação aplicável.</div>
+<div class="node"><strong>Usuário</strong><br>Tem direitos relacionados à adequada prestação do serviço, informação e proteção previstos na legislação.</div>
+<div class="node"><strong>Lei 8.987/1995</strong><br>É uma das principais normas cobradas em concursos sobre concessão e permissão de serviços públicos.</div>
+</div>
+<div class="highlight"><strong>Prova:</strong> concessão e permissão são formas de delegação; não significam transferência da titularidade do serviço público.</div>
+</div>
+</section>
+
+<section id="licitacoes" class="section">
+<div class="card">
+<span class="badge">Licitações</span>
+<h2>Licitações e contratos administrativos</h2>
+<p>A Lei nº 14.133/2021 estabelece normas gerais de licitação e contratação para a Administração Pública. A licitação busca selecionar a proposta apta a gerar o resultado mais vantajoso e assegurar tratamento isonômico, observados os princípios e objetivos legais.</p>
+<div class="mindmap">
+<div class="node"><strong>Princípios</strong><br>Legalidade, impessoalidade, moralidade, publicidade, eficiência, planejamento, transparência, julgamento objetivo, competitividade e outros previstos na Lei 14.133/2021.</div>
+<div class="node"><strong>Fases</strong><br>Preparatória, divulgação do edital, apresentação de propostas/lances, julgamento, habilitação, fase recursal e homologação, conforme a modalidade e o procedimento aplicável.</div>
+<div class="node"><strong>Modalidades</strong><br>Pregão, concorrência, concurso, leilão e diálogo competitivo.</div>
+<div class="node"><strong>Contratação direta</strong><br>Inclui hipóteses de inexigibilidade e dispensa de licitação, sempre conforme os requisitos legais.</div>
+<div class="node"><strong>Habilitação</strong><br>Verifica requisitos jurídicos, técnicos, fiscais, sociais, trabalhistas e econômico-financeiros, conforme o objeto e a lei.</div>
+<div class="node"><strong>Planejamento</strong><br>É etapa essencial para definir a necessidade, o objeto, os riscos, os custos e a solução adequada.</div>
+</div>
+<div class="highlight"><strong>Atualização:</strong> para concursos, priorize a Lei 14.133/2021 e confira no edital se há cobrança de legislação complementar ou normas específicas do órgão.</div>
+</div>
+</section>
+
+<section id="questoes" class="section quiz">
+<div class="card">
+<span class="badge">Simulado interativo</span>
+<h2>📝 Banco de Questões</h2>
+<p>Selecione um assunto para praticar questões específicas daquele conteúdo. Depois clique em <strong>Corrigir simulado</strong> para ver acertos, erros e explicações.</p>
+<label for="topicFilter"><strong>Filtrar questões por assunto:</strong></label>
+<select id="topicFilter" class="search" onchange="filterQuestions()">
+<option value="Todos">Todos os assuntos</option>
+<option value="Princípios">Princípios</option>
+<option value="Regime Jurídico">Regime Jurídico</option>
+<option value="LINDB">LINDB</option>
+<option value="Poderes e Deveres">Poderes e Deveres</option>
+<option value="Abuso de Poder">Abuso de Poder</option>
+<option value="Atos Administrativos">Atos Administrativos</option>
+<option value="Serviços Públicos">Serviços Públicos</option>
+<option value="Licitações">Licitações</option>
+</select>
+<div id="questions"></div>
+<div class="controls">
+<button class="primary" onclick="grade()">Corrigir simulado</button>
+<button class="secondary" onclick="resetQuiz()">Refazer</button>
+</div>
+<div id="score" class="score"></div>
+</div>
+</section>
+</main>
+<footer>Material de estudo — revise sempre a legislação e a jurisprudência cobradas no edital do seu concurso.</footer>
+</div>
+
+<script>
+const questions = [
+{
+ topic:"Princípios",
+ q:"1. Segundo o art. 37, caput, da Constituição Federal, NÃO é princípio expressamente indicado para a Administração Pública:",
+ opts:["Legalidade","Impessoalidade","Moralidade","Razoabilidade","Publicidade"],
+ a:3,
+ e:"A razoabilidade é princípio administrativo relevante, mas não aparece expressamente no rol do caput do art. 37. O rol traz Legalidade, Impessoalidade, Moralidade, Publicidade e Eficiência."
+},
+{
+ topic:"Princípios",
+ q:"2. O princípio da impessoalidade está relacionado, entre outros aspectos, à:",
+ opts:["Promoção pessoal de autoridades em publicidade institucional.","Vedação de favorecimentos e perseguições na atuação administrativa.","Liberdade absoluta do administrador.","Possibilidade de agir sem finalidade pública.","Dispensa de concurso público."],
+ a:1,
+ e:"A impessoalidade busca evitar favorecimentos, perseguições e promoção pessoal, vinculando a atuação ao interesse público."
+},
+{
+ topic:"Princípios",
+ q:"3. A autotutela administrativa permite que a Administração:",
+ opts:["Anule atos ilegais e revogue atos válidos por conveniência e oportunidade, nos limites legais.","Revogue qualquer decisão judicial.","Ignore direitos adquiridos em qualquer situação.","Atue sempre sem motivação.","Substitua o Poder Judiciário em qualquer processo."],
+ a:0,
+ e:"A autotutela autoriza a Administração a rever seus próprios atos, observados os limites jurídicos: ilegalidade conduz à anulação; conveniência e oportunidade podem justificar revogação de ato válido."
+},
+{
+ topic:"Regime Jurídico",
+ q:"4. No regime jurídico administrativo, o princípio da indisponibilidade do interesse público significa que:",
+ opts:["O administrador pode dispor livremente dos bens públicos.","O interesse público pertence pessoalmente ao agente público.","O administrador atua como gestor do interesse público e deve respeitar os limites legais.","A Administração não possui prerrogativas.","Todo interesse particular deve sempre ser ignorado."],
+ a:2,
+ e:"O administrador não é proprietário do interesse público. Ele exerce função administrativa dentro das competências e limites estabelecidos pelo ordenamento."
+},
+{
+ topic:"Princípios",
+ q:"5. A publicidade dos atos administrativos:",
+ opts:["É absoluta e nunca admite exceções.","É princípio constitucional, mas pode sofrer restrições previstas no ordenamento jurídico.","Só se aplica ao Poder Executivo.","Impede qualquer hipótese de sigilo.","Elimina a necessidade de controle."],
+ a:1,
+ e:"A publicidade é princípio constitucional, mas o ordenamento admite hipóteses de restrição de acesso e sigilo, especialmente para proteção de interesses juridicamente relevantes."
+},
+{
+ topic:"Regime Jurídico",
+ q:"6. São tradicionalmente associados ao núcleo do regime jurídico administrativo:",
+ opts:["Supremacia e indisponibilidade do interesse público.","Liberdade econômica e autonomia privada absoluta.","Publicidade e soberania popular exclusivamente.","Hierarquia e voto direto.","Propriedade privada e autonomia contratual absoluta."],
+ a:0,
+ e:"A doutrina tradicional explica o regime jurídico administrativo pelo binômio supremacia do interesse público e indisponibilidade do interesse público."
+},
+{
+ topic:"Atos Administrativos",
+ q:"8. Nos atos administrativos, o elemento relacionado ao resultado jurídico pretendido pela Administração é o:",
+ opts:["Competência","Objeto","Motivo","Forma","Finalidade"],
+ a:1,
+ e:"O objeto é o efeito jurídico produzido pelo ato administrativo. Deve ser lícito, possível, determinado ou determinável."
+},
+{
+ topic:"Atos Administrativos",
+ q:"9. A retirada de um ato administrativo válido por razões de conveniência e oportunidade denomina-se:",
+ opts:["Anulação","Revogação","Convalidação","Cassação","Ratificação"],
+ a:1,
+ e:"A revogação incide sobre ato válido e decorre de juízo de conveniência e oportunidade, produzindo a retirada do ato nos limites admitidos pelo ordenamento."
+},
+{
+ topic:"Serviços Públicos",
+ q:"10. A delegação da prestação de serviço público, precedida de licitação e feita por conta e risco da concessionária, caracteriza:",
+ opts:["Concessão","Desapropriação","Autotutela","Permissão de uso de bem público","Poder disciplinar"],
+ a:0,
+ e:"A concessão de serviço público é uma forma de delegação, disciplinada principalmente pela Lei 8.987/1995."
+},
+{
+ topic:"Licitações",
+ q:"11. Segundo a Lei nº 14.133/2021, são modalidades de licitação:",
+ opts:["Pregão, concorrência, concurso, leilão e diálogo competitivo.","Convite, tomada de preços e concorrência apenas.","Pregão, convite e concurso apenas.","Leilão, tomada de preços e convite.","Concurso, convite e pregão apenas."],
+ a:0,
+ e:"A Lei 14.133/2021 prevê cinco modalidades: pregão, concorrência, concurso, leilão e diálogo competitivo."
+},
+{
+ topic:"Abuso de Poder",
+ q:"12. No abuso de poder, quando o agente atua dentro de sua competência, mas busca finalidade diversa daquela prevista em lei, ocorre:",
+ opts:["Excesso de poder","Desvio de poder ou de finalidade","Convalidação","Revogação","Delegação"],
+ a:1,
+ e:"No desvio de poder, o agente possui competência, mas utiliza o ato para finalidade diversa da finalidade legal ou do interesse público."
+},
+{
+ topic:"LINDB",
+ q:"13. A Lei de Introdução às Normas do Direito Brasileiro, após as alterações da Lei 13.655/2018, valoriza nas decisões públicas:",
+ opts:["Somente a literalidade da norma, sem considerar a realidade.","A consideração das consequências práticas da decisão, nos termos legais.","A ausência de motivação.","A impossibilidade de responsabilização de agentes públicos.","A dispensa de segurança jurídica."],
+ a:1,
+ e:"A LINDB passou a conter regras voltadas à tomada de decisões públicas, incluindo a consideração das consequências práticas e a busca de maior segurança jurídica."
+},
+{
+ topic:"Princípios",
+ q:"7. Na Lei nº 9.784/1999, são princípios expressamente mencionados no art. 2º:",
+ opts:["Apenas legalidade e publicidade.","Finalidade, motivação, razoabilidade, proporcionalidade, moralidade, ampla defesa e contraditório, entre outros.","Somente eficiência e supremacia.","Apenas continuidade e especialidade.","Nenhum princípio, pois a lei trata apenas de procedimentos."],
+ a:1,
+ e:"O art. 2º da Lei 9.784/1999 apresenta amplo conjunto de princípios, incluindo finalidade, motivação, razoabilidade, proporcionalidade, moralidade, ampla defesa e contraditório."
+},
+{
+ topic:"LINDB", q:"14. Conforme a LINDB, a decisão administrativa que estabelecer interpretação nova sobre norma de conteúdo indeterminado deve, quando necessário, prever:",
+ opts:["A aplicação retroativa automática da nova interpretação.","Regime de transição quando indispensável para cumprimento proporcional, equânime e eficiente.","A dispensa de motivação.","A proibição de controle externo.","A anulação de todos os atos anteriores."], a:1,
+ e:"O art. 23 da LINDB prevê regime de transição quando uma decisão estabelecer interpretação ou orientação nova que imponha novo dever ou novo condicionamento de direito, nos termos legais."
+},
+{
+ topic:"Poderes e Deveres", q:"15. O poder administrativo que permite apurar infrações e aplicar sanções a servidores e demais pessoas sujeitas à disciplina administrativa é o poder:",
+ opts:["Hierárquico","Regulamentar","Disciplinar","De polícia","Vinculado"], a:2,
+ e:"O poder disciplinar permite apurar infrações e aplicar sanções dentro dos limites legais e com respeito ao devido processo quando exigido."
+},
+{
+ topic:"Poderes e Deveres", q:"16. O dever de prestar contas decorre principalmente do fato de que o agente público:",
+ opts:["É proprietário dos bens públicos.","Administra interesses e recursos públicos e está sujeito a controle.","Pode escolher quais atos serão fiscalizados.","Não precisa justificar despesas públicas.","Está dispensado de observar a lei."], a:1,
+ e:"Quem gere recursos ou bens públicos deve prestar contas e submeter-se aos mecanismos de controle previstos no ordenamento."
+},
+{
+ topic:"Abuso de Poder", q:"17. Quando o agente público pratica ato além dos limites de sua competência, ocorre:",
+ opts:["Desvio de finalidade","Excesso de poder","Revogação","Convalidação","Poder regulamentar"], a:1,
+ e:"O excesso de poder é vício relacionado à competência: o agente ultrapassa os limites do poder que lhe foi atribuído."
+},
+{
+ topic:"Serviços Públicos", q:"18. A concessão de serviço público transfere à concessionária:",
+ opts:["A titularidade do serviço público em caráter definitivo.","A competência legislativa sobre o serviço.","A execução do serviço, nos termos do contrato e da lei.","O poder de dispensar licitação em qualquer contratação.","A propriedade dos bens públicos afetados ao serviço."], a:2,
+ e:"A concessão delega a execução do serviço, mas a titularidade permanece com o Poder Público, conforme o regime jurídico aplicável."
+},
+{
+ topic:"Licitações", q:"19. A contratação direta pela Administração Pública:",
+ opts:["É sempre proibida.","Pode ocorrer nas hipóteses legais de dispensa ou inexigibilidade, com justificativa e requisitos pertinentes.","Dispensa qualquer processo administrativo.","É permitida por mera preferência pessoal do gestor.","Substitui a necessidade de observar a Lei 14.133/2021."], a:1,
+ e:"A contratação direta é admitida nas hipóteses previstas em lei e exige instrução, justificativas e observância dos requisitos aplicáveis."
+},
+{
+ topic:"Atos Administrativos", q:"20. A presunção de legitimidade dos atos administrativos significa que eles:",
+ opts:["Nunca podem ser questionados.","São considerados conformes ao direito até que haja contestação ou prova em contrário, nos termos aplicáveis.","Não precisam respeitar a lei.","São sempre autoexecutórios.","Não podem ser anulados."], a:1,
+ e:"A presunção de legitimidade é relativa: admite contestação e prova em contrário, e não impede o controle ou a anulação do ato ilegal."
+},
+{topic:"Princípios",difficulty:"Fácil",q:"21. O princípio da eficiência exige da Administração:",opts:["Atuação voltada a bons resultados e adequada utilização dos recursos públicos.","Atuação sem controle de resultados.","Prioridade para interesses pessoais.","Dispensa de observância da lei."],a:0,e:"A eficiência orienta a Administração à obtenção de resultados adequados, com qualidade e boa utilização dos recursos públicos."},
+{topic:"Princípios",difficulty:"Médio",q:"22. A finalidade pública, como princípio da atividade administrativa, impede que o agente:",opts:["Utilize competência legal para alcançar objetivo estranho ao previsto no ordenamento.","Motive suas decisões.","Atue dentro da competência.","Busque o interesse público."],a:0,e:"O uso da competência para finalidade diversa da prevista caracteriza desvio de finalidade."},
+{topic:"Princípios",difficulty:"Médio",q:"23. A proporcionalidade na atuação administrativa relaciona-se principalmente à:",opts:["Adequação entre a medida adotada e a finalidade pretendida.","Eliminação de qualquer controle judicial.","Possibilidade de aplicar qualquer sanção.","Supressão do dever de motivação."],a:0,e:"A proporcionalidade busca evitar medidas excessivas e exige relação equilibrada entre meios e fins."},
+{topic:"Princípios",difficulty:"Difícil",q:"24. Sobre a moralidade administrativa, é correto afirmar que:",opts:["A atuação administrativa deve observar padrões éticos juridicamente relevantes, além da mera legalidade formal.","Somente a intenção pessoal do agente importa.","A moralidade não possui relevância jurídica.","Ela autoriza o agente a contrariar a lei por razões éticas."],a:0,e:"A moralidade é princípio jurídico e exige conduta compatível com padrões de ética e probidade administrativa."},
+{topic:"Princípios",difficulty:"Difícil",q:"25. A impessoalidade na publicidade institucional busca evitar principalmente:",opts:["Promoção pessoal de autoridades e servidores.","Divulgação de informações de interesse coletivo.","Transparência administrativa.","Controle social."],a:0,e:"A publicidade institucional deve atender à finalidade pública e não servir à promoção pessoal de agentes."},
+{topic:"Regime Jurídico",difficulty:"Fácil",q:"26. A indisponibilidade do interesse público significa que o administrador:",opts:["Não pode tratar o interesse público como patrimônio pessoal.","Pode renunciar livremente a competências.","Pode alienar qualquer bem público sem lei.","Pode escolher qualquer finalidade."],a:0,e:"O administrador é gestor do interesse público e deve atuar nos limites legais."},
+{topic:"Regime Jurídico",difficulty:"Médio",q:"27. A supremacia do interesse público, em sua formulação tradicional, fundamenta:",opts:["Prerrogativas administrativas voltadas à realização de finalidades públicas.","A ausência de direitos fundamentais.","A liberdade absoluta do gestor.","A dispensa de lei."],a:0,e:"A supremacia é tradicionalmente associada a prerrogativas diferenciadas da Administração para proteção do interesse coletivo."},
+{topic:"Regime Jurídico",difficulty:"Médio",q:"28. O regime jurídico administrativo é marcado pela combinação entre:",opts:["Prerrogativas e sujeições da Administração.","Autonomia privada e ausência de controle.","Propriedade particular e soberania.","Liberdade contratual absoluta e imunidade."],a:0,e:"A Administração possui prerrogativas para cumprir suas funções, mas também está submetida a limitações e controles."},
+{topic:"Regime Jurídico",difficulty:"Difícil",q:"29. A autotutela, quando aplicada a ato ilegal, conduz em regra à:",opts:["Anulação.","Revogação por conveniência.","Delegação.","Concessão."],a:0,e:"Ato ilegal deve ser retirado por anulação; revogação se relaciona a conveniência e oportunidade de ato válido."},
+{topic:"Regime Jurídico",difficulty:"Difícil",q:"30. A indisponibilidade do interesse público é compatível com a ideia de que o agente administrativo:",opts:["Somente pode agir dentro das competências e finalidades jurídicas atribuídas.","Pode negociar qualquer interesse público sem autorização.","Pode abandonar a finalidade legal.","É titular pessoal dos bens públicos."],a:0,e:"A indisponibilidade exige atuação vinculada às competências, finalidades e limites do ordenamento."},
+{topic:"LINDB",difficulty:"Fácil",q:"31. Os arts. 20 a 30 da LINDB são especialmente relevantes para:",opts:["Decisões e aplicação do Direito Público, inclusive na Administração.","Somente contratos privados.","Somente Direito Penal.","Apenas relações familiares."],a:0,e:"Esses dispositivos trazem regras relevantes para decisões públicas, controle e segurança jurídica."},
+{topic:"LINDB",difficulty:"Médio",q:"32. Na decisão pública, a consideração das consequências práticas busca evitar:",opts:["Decisões abstratas sem consideração da realidade concreta.","Qualquer forma de motivação.","A aplicação de normas jurídicas.","O controle da Administração."],a:0,e:"A LINDB exige consideração das consequências práticas nas hipóteses previstas, aproximando a decisão da realidade administrativa."},
+{topic:"LINDB",difficulty:"Médio",q:"33. A LINDB valoriza a segurança jurídica ao disciplinar:",opts:["Regime de transição quando nova orientação impõe novo dever ou condicionamento, nos termos legais.","Retroatividade automática de toda interpretação.","Ausência de fundamentação.","Impossibilidade de revisão administrativa."],a:0,e:"O art. 23 trata de regime de transição quando presentes os pressupostos legais."},
+{topic:"LINDB",difficulty:"Difícil",q:"34. Para responsabilização pessoal do agente público por suas decisões, a LINDB determina consideração:",opts:["Das circunstâncias práticas que tenham limitado ou condicionado sua atuação, nos termos legais.","Apenas do resultado final.","Somente da opinião de terceiros.","De qualquer erro sem análise das circunstâncias."],a:0,e:"A LINDB exige consideração das circunstâncias práticas na responsabilização pessoal, conforme os requisitos legais."},
+{topic:"LINDB",difficulty:"Difícil",q:"35. O compromisso previsto na LINDB pode ser utilizado, observados os requisitos legais, para:",opts:["Eliminar irregularidade, incerteza jurídica ou situação contenciosa.","Criar crime por acordo administrativo.","Dispensar toda forma de controle.","Substituir a Constituição."],a:0,e:"O termo de compromisso é instrumento de solução administrativa previsto na LINDB, sujeito aos requisitos legais."},
+{topic:"Poderes e Deveres",difficulty:"Fácil",q:"36. O poder hierárquico permite à Administração:",opts:["Organizar e distribuir funções dentro da estrutura administrativa.","Criar crimes.","Julgar definitivamente qualquer cidadão.","Dispensar a lei."],a:0,e:"O poder hierárquico organiza a estrutura interna e permite distribuição, fiscalização e revisão de atividades nos limites legais."},
+{topic:"Poderes e Deveres",difficulty:"Fácil",q:"37. O poder regulamentar está relacionado à:",opts:["Edição de atos normativos para fiel execução da lei, nos limites jurídicos.","Criação ilimitada de obrigações sem lei.","Aplicação de penas criminais.","Privatização obrigatória de serviços."],a:0,e:"O poder regulamentar permite disciplinar a execução da lei sem ultrapassar os limites constitucional e legalmente admitidos."},
+{topic:"Poderes e Deveres",difficulty:"Médio",q:"38. O poder de polícia administrativa consiste em atividade que pode:",opts:["Condicionar ou restringir direitos, interesses ou liberdades em benefício do interesse público, nos termos legais.","Eliminar todos os direitos fundamentais.","Substituir o Poder Judiciário em qualquer decisão.","Criar tributos sem lei."],a:0,e:"O poder de polícia limita ou disciplina atividades e direitos em favor do interesse público, dentro da lei."},
+{topic:"Poderes e Deveres",difficulty:"Médio",q:"39. Na atuação discricionária, a Administração possui:",opts:["Margem legal de escolha quanto à conveniência e oportunidade.","Liberdade para agir contra a lei.","Ausência de finalidade pública.","Impossibilidade de controle."],a:0,e:"A discricionariedade existe dentro dos limites legais e não elimina finalidade, controle ou princípios."},
+{topic:"Poderes e Deveres",difficulty:"Difícil",q:"40. O dever de eficiência é compatível com:",opts:["Busca de qualidade, produtividade e resultados adequados ao interesse público.","Redução de controles legais.","Atuação sem planejamento.","Prioridade a interesses particulares."],a:0,e:"Eficiência significa buscar resultados públicos adequados, sem afastar legalidade e demais controles."},
+{topic:"Abuso de Poder",difficulty:"Fácil",q:"41. O excesso de poder está relacionado diretamente ao elemento:",opts:["Competência.","Finalidade.","Motivo.","Objeto."],a:0,e:"No excesso de poder, o agente ultrapassa os limites de sua competência."},
+{topic:"Abuso de Poder",difficulty:"Médio",q:"42. O desvio de poder ocorre quando:",opts:["O agente competente utiliza sua atribuição para finalidade diversa da legalmente prevista.","O agente nunca recebeu competência.","O ato é sempre inexistente.","Há apenas erro material sem consequência."],a:0,e:"Desvio de poder é vício de finalidade praticado por agente que possui competência para agir."},
+{topic:"Abuso de Poder",difficulty:"Médio",q:"43. A Lei 13.869/2019 trata principalmente de:",opts:["Crimes de abuso de autoridade.","Licitações e contratos.","Concessões de serviços públicos.","Processo administrativo federal."],a:0,e:"A Lei 13.869/2019 dispõe sobre crimes de abuso de autoridade."},
+{topic:"Abuso de Poder",difficulty:"Difícil",q:"44. Para a configuração dos crimes previstos na Lei 13.869/2019, a análise deve considerar:",opts:["O tipo penal específico e a finalidade exigida pela lei.","Apenas a existência de dano financeiro.","Somente a condição de servidor efetivo.","Qualquer divergência administrativa como crime."],a:0,e:"Os crimes da Lei 13.869/2019 possuem elementos próprios; a finalidade específica é exigida nas condições previstas pela lei."},
+{topic:"Abuso de Poder",difficulty:"Difícil",q:"45. Mero erro de interpretação da lei, isoladamente, na forma prevista pela Lei 13.869/2019:",opts:["Não configura automaticamente abuso de autoridade.","Configura sempre crime.","Gera prisão obrigatória.","Dispensa análise do tipo penal."],a:0,e:"A lei afasta a criminalização automática por mero erro de interpretação ou avaliação, devendo ser analisados os requisitos do tipo penal."},
+{topic:"Atos Administrativos",difficulty:"Fácil",q:"46. São elementos clássicos do ato administrativo:",opts:["Competência, finalidade, forma, motivo e objeto.","Publicidade, eficiência, soberania, voto e território.","Hierarquia, polícia, concessão, tarifa e licitação.","Poder, contrato, servidor, usuário e orçamento."],a:0,e:"A classificação clássica reúne competência, finalidade, forma, motivo e objeto."},
+{topic:"Atos Administrativos",difficulty:"Médio",q:"47. O motivo do ato administrativo corresponde:",opts:["Aos pressupostos de fato e de direito que justificam sua prática.","Ao resultado jurídico produzido.","À autoridade competente.","Ao modo de exteriorização."],a:0,e:"Motivo são os pressupostos fáticos e jurídicos que fundamentam a prática do ato."},
+{topic:"Atos Administrativos",difficulty:"Médio",q:"48. A finalidade do ato administrativo deve ser:",opts:["A finalidade pública prevista pelo ordenamento.","Escolhida livremente pelo agente.","Sempre econômica.","Sempre favorável ao particular."],a:0,e:"Todo ato administrativo deve atender à finalidade pública estabelecida pelo ordenamento."},
+{topic:"Atos Administrativos",difficulty:"Difícil",q:"49. A competência administrativa é, em regra:",opts:["Irrenunciável, admitindo delegação e avocação nos limites legais.","Sempre livremente transferível.","Propriedade pessoal do agente.","Independente de previsão legal."],a:0,e:"A competência decorre da lei e é, em regra, irrenunciável, sem prejuízo das hipóteses legais de delegação e avocação."},
+{topic:"Atos Administrativos",difficulty:"Difícil",q:"50. A revogação de ato administrativo válido decorre de:",opts:["Juízo de conveniência e oportunidade, respeitados os limites jurídicos.","Ilegalidade obrigatória.","Vício de competência necessariamente insanável.","Decisão judicial obrigatória em todos os casos."],a:0,e:"Revogação retira ato válido por razões de mérito administrativo, observados os limites legais."},
+{topic:"Serviços Públicos",difficulty:"Fácil",q:"51. A concessão e a permissão de serviço público são formas de:",opts:["Delegação da prestação do serviço.","Transferência definitiva da titularidade.","Extinção do serviço.","Criação de órgão público."],a:0,e:"Concessão e permissão delegam a prestação, sem transferir definitivamente a titularidade do serviço."},
+{topic:"Serviços Públicos",difficulty:"Fácil",q:"52. Entre referências importantes para a prestação adequada de serviços públicos está:",opts:["Continuidade.","Ausência de controle.","Sigilo absoluto.","Gratuidade obrigatória em qualquer serviço."],a:0,e:"A continuidade é princípio relevante na disciplina dos serviços públicos, conforme o regime aplicável."},
+{topic:"Serviços Públicos",difficulty:"Médio",q:"53. A Lei nº 8.987/1995 disciplina principalmente:",opts:["Concessão e permissão de serviços públicos.","Processo administrativo federal.","Licitações exclusivamente de obras.","Crimes de abuso de autoridade."],a:0,e:"A Lei 8.987/1995 é referência central para concessão e permissão de serviços públicos."},
+{topic:"Serviços Públicos",difficulty:"Médio",q:"54. Na concessão de serviço público, a execução é atribuída à concessionária:",opts:["Nas condições definidas pela lei e pelo contrato, assumindo os riscos próprios da concessão.","Como proprietária definitiva do serviço.","Sem fiscalização do Poder Público.","Sem necessidade de observar o contrato."],a:0,e:"A concessionária executa o serviço conforme o regime legal e contratual, sujeitando-se à fiscalização e aos riscos próprios da concessão."},
+{topic:"Serviços Públicos",difficulty:"Difícil",q:"55. A modicidade tarifária relaciona-se à ideia de:",opts:["Tarifa compatível com a adequada prestação do serviço e com a capacidade de pagamento dos usuários, conforme o regime jurídico.","Tarifa livre de qualquer controle.","Gratuidade obrigatória de toda concessão.","Proibição de cobrança por serviços públicos."],a:0,e:"A modicidade busca compatibilizar a remuneração do serviço com tarifas adequadas aos usuários, conforme a disciplina legal e contratual."},
+{topic:"Licitações",difficulty:"Fácil",q:"56. A Lei nº 14.133/2021 estabelece normas gerais sobre:",opts:["Licitações e contratos administrativos.","Somente concursos públicos.","Apenas serviços públicos concedidos.","Somente crimes contra a Administração."],a:0,e:"A Lei 14.133/2021 é a nova lei geral de licitações e contratos administrativos."},
+{topic:"Licitações",difficulty:"Fácil",q:"57. Entre as modalidades previstas na Lei 14.133/2021 está:",opts:["Diálogo competitivo.","Tomada de preços.","Convite.","Carta-convite."],a:0,e:"O diálogo competitivo é uma das cinco modalidades da Lei 14.133/2021; convite e tomada de preços não são modalidades dessa lei."},
+{topic:"Licitações",difficulty:"Médio",q:"58. A inexigibilidade de licitação ocorre quando:",opts:["Há inviabilidade de competição, nas hipóteses legais.","O gestor prefere contratar diretamente.","O objeto é sempre de pequeno valor.","A Administração não quer publicar o edital."],a:0,e:"A inexigibilidade decorre da inviabilidade de competição e depende do enquadramento na hipótese legal."},
+{topic:"Licitações",difficulty:"Médio",q:"59. A fase preparatória da licitação está ligada principalmente ao:",opts:["Planejamento da contratação e definição adequada da solução e do objeto.","Julgamento dos recursos após a homologação.","Pagamento final ao contratado.","Encerramento automático do contrato."],a:0,e:"A fase preparatória concentra o planejamento e a estruturação da contratação."},
+{topic:"Licitações",difficulty:"Difícil",q:"60. O julgamento objetivo busca garantir que:",opts:["A escolha da proposta siga critérios previamente definidos no instrumento convocatório e na lei.","O gestor escolha livremente sua proposta favorita.","Os critérios possam ser alterados após os lances.","A habilitação seja dispensada em qualquer caso."],a:0,e:"O julgamento objetivo exige observância dos critérios estabelecidos previamente, preservando isonomia e previsibilidade."}
+];
+
+function renderQuestions(){
+ const box=document.getElementById("questions");
+ const topic=document.getElementById("topicFilter")?.value||"Todos";
+ const defaultDifficulty=["Fácil","Fácil","Médio","Médio","Fácil","Fácil","Médio","Fácil","Médio","Fácil","Fácil","Médio","Médio","Difícil","Fácil","Fácil","Fácil","Médio","Médio","Médio"];
+ const visible=questions.map((x,i)=>({...x,index:i,difficulty:x.difficulty||defaultDifficulty[i]||"Médio"})).filter(x=>topic==="Todos"||x.topic===topic);
+ box.innerHTML=visible.map((x)=>`
+ <div class="question" data-q="${x.index}">
+   <h3>${x.q} <span class="badge">${x.difficulty}</span></h3>
+   ${x.opts.map((o,j)=>`<button class="option" onclick="selectOption(${x.index},${j},this)">${String.fromCharCode(65+j)}) ${o}</button>`).join("")}
+   <div class="explanation" id="exp-${x.index}"></div>
+ </div>`).join("");
+}
+function filterQuestions(){
+ renderQuestions();
+ document.getElementById("score").style.display="none";
+}
+const answers={};
+function selectOption(q,a,el){
+ answers[q]=a;
+ const parent=el.parentElement;
+ parent.querySelectorAll(".option").forEach(b=>b.classList.remove("selected"));
+ el.classList.add("selected");
+}
+function grade(){
+ let score=0, answered=0;
+ const visible=[...document.querySelectorAll(".question")].map(el=>Number(el.dataset.q));
+ visible.forEach(i=>{
+   const x=questions[i];
+   const box=document.querySelector(`[data-q="${i}"]`);
+   const opts=box.querySelectorAll(".option");
+   opts.forEach((b,j)=>{
+     b.classList.remove("correct","wrong");
+     if(j===x.a) b.classList.add("correct");
+     if(answers[i]===j && j!==x.a) b.classList.add("wrong");
+   });
+   const exp=document.getElementById(`exp-${i}`);
+   if(answers[i]!==undefined){
+     answered++;
+     if(answers[i]===x.a) score++;
+     exp.innerHTML=(answers[i]===x.a?"✅ <strong>Correto!</strong> ":"❌ <strong>Incorreto.</strong> ")+x.e;
+     exp.classList.add("show");
+   }else{
+     exp.innerHTML="⚠️ Você não respondeu esta questão. "+x.e;
+     exp.classList.add("show");
+   }
+ });
+ const pct=visible.length?Math.round(score/visible.length*100):0;
+ const result=document.getElementById("score");
+ result.style.display="block";
+ result.innerHTML=`Resultado: ${score}/${visible.length} acertos (${pct}%). Você respondeu ${answered} de ${visible.length} questões deste assunto. ${pct>=70?"🎯 Bom desempenho!":"📚 Revise os tópicos e tente novamente."}`;
+ result.scrollIntoView({behavior:"smooth",block:"center"});
+}
+function resetQuiz(){
+ Object.keys(answers).forEach(k=>delete answers[k]);
+ renderQuestions();
+ document.getElementById("score").style.display="none";
+ document.getElementById("questoes").scrollIntoView({behavior:"smooth"});
+}
+function go(id,btn){
+ document.getElementById(id).scrollIntoView({behavior:"smooth"});
+ document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");
+}
+renderQuestions();
+</script>
+</body>
+</html>
